@@ -19,7 +19,6 @@ public class PersonDAO {
         people.add(new Person(++PEOPLE_COUNT, "Bogdan"));
         people.add(new Person(++PEOPLE_COUNT, "Grigoriy"));
     }
-
     public List<Person> getAllPeople() {
         return people;
     }
