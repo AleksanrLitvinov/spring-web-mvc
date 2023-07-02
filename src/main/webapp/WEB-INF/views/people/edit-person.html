@@ -7,8 +7,10 @@
 <body>
 <form th:method="PATCH" th:action="@{/people/{id}(id=${editPerson.getId()})}"
       th:object="${editPerson}">
-  <label for="name">Enter Name</label>
-  <input type="text" th:field="*{name}" id="name">
+    <label for="name">Enter Name</label>
+    <input type="text" th:field="*{name}" id="name">
+    <label for="lastName">Enter Last name</label>
+    <input type="text" th:field="*{lastName}" id="lastName">
   <br/>
   <input type="submit" value="Update!">
 </form>

@@ -8,7 +8,8 @@
 <form th:method="POST" th:action="@{/people}" th:object="${newPerson}">
   <label for="name">Enter Name</label>
   <input type="text" th:field="*{name}" id="name">
-
+    <label for="lastName">Enter Last name</label>
+    <input type="text" th:field="*{lastName}" id="lastName">
   <br/>
   <input type="submit" value="Create!">
 </form>

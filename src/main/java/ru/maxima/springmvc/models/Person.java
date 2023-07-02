@@ -3,12 +3,13 @@ package ru.maxima.springmvc.models;
 public class Person {
     private Long id;
     private String name;
+    private String lastName;
 
 
-
-    public Person(Long id, String name) {
+    public Person(Long id, String name, String lastName) {
         this.id = id;
         this.name = name;
+        this.lastName = lastName;
 
     }
     public Person(){
@@ -30,5 +31,12 @@ public class Person {
         this.name = name;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
 }
