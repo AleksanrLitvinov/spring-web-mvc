@@ -91,17 +91,30 @@ public class PersonDAO {
         }
     }
 
-//    public void update(Long id, Person person) {
+    public void update(Long id, Person person) {
 //        Person updatedPerson = getPersonById(id);
 //        updatedPerson.setName(person.getName());
-////        updatedPerson.setLastName(person.getLastName());
+//        updatedPerson.setLastName(person.getLastName());
 //        updatedPerson.setAge(person.getAge());
 //        updatedPerson.setEmail(person.getEmail());
-//
-//    }
-//
+        try {
+            Statement statement = connection.createStatement();
+            String query = "update person set name = "+ "'" + person.getName() + "'" + "," + " age = " + "'" + person.getAge() + "'" + "," +
+                    "" + " email = " + "'" + person.getEmail() + "'" + " WHERE id=" + id;
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void delete(Long id) {
 //        people.removeIf(person -> person.getId().equals(id));
-
+        try {
+            Statement statement = connection.createStatement();
+            String query = "delete from person where id =" + id;
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
