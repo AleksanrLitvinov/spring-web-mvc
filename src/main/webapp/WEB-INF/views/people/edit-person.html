@@ -9,9 +9,18 @@
       th:object="${editPerson}">
     <label for="name">Enter Name</label>
     <input type="text" th:field="*{name}" id="name">
-    <label for="lastName">Enter Last name</label>
-    <input type="text" th:field="*{lastName}" id="lastName">
-  <br/>
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <br/>
+<!--    <label for="lastName">Enter Last name</label>-->
+<!--    <input type="text" th:field="*{lastName}" id="lastName">-->
+    <label for="age">Enter age</label>
+    <input type="text" th:field="*{age}" id="age">
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+    <br/>
+    <label for="email">Enter email</label>
+    <input type="text" th:field="*{email}" id="email">
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    <br/>
   <input type="submit" value="Update!">
 </form>
 </body>
