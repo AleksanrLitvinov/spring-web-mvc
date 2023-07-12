@@ -23,6 +23,7 @@ public class PeopleController {
     @GetMapping()
     public String getPeople(Model model) {
         model.addAttribute("allPeople", personDAO.getAllPeople());
+       // model.addAttribute("allName", personDAO.searchByName());
         return "people/get-all-people";
 
     }
@@ -69,4 +70,10 @@ public class PeopleController {
         return "redirect:/people";
     }
 
+    @PatchMapping ("search")
+    public String getFromSearchByName(@RequestParam(name = "name", defaultValue = "test") String name, Model model) {
+        model.addAttribute("allName", personDAO.searchByName(name));
+        return "people/get-search-name";
+
+    }
 }

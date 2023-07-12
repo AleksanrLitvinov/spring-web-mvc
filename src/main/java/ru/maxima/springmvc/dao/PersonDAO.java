@@ -174,4 +174,11 @@ public class PersonDAO {
                 , id
         );
     }
+
+    public List<Person> searchByName(String name) {
+       return jdbcTemplate.query("select * from person where name like ?",
+                new Object[]{name},
+                new PersonMapper());
+
+    }
 }
