@@ -106,8 +106,7 @@ public class PersonDAO {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-            jdbcTemplate.update("insert into person(id, name, age, email) values (?,?,?,?)"
-                    , Long.valueOf(getAllPeople().size() + 1)
+            jdbcTemplate.update("insert into person(name, age, email) values (?,?,?)"
                     , person.getName()
                     , person.getAge()
                     , person.getEmail());
