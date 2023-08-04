@@ -1,24 +1,29 @@
 package ru.maxima.springmvc.dao;
 
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.maxima.springmvc.models.Person;
 
-import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class PersonDAO {
 
-    private Long PEOPLE_COUNT = 0L;
+//    private Long PEOPLE_COUNT = 0L;
 
 
-    private JdbcTemplate jdbcTemplate;
+//    private JdbcTemplate jdbcTemplate;
+
+    private final SessionFactory sessionFactory;
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PersonDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
 //    public PersonDAO() {
@@ -34,8 +39,50 @@ public class PersonDAO {
 //            e.printStackTrace();        }
 
 //    }
+
+    @Transactional(readOnly = true)
     public List<Person> getAllPeople() {
-//        List<Person> people = new ArrayList<>();
+
+        Session session = sessionFactory.getCurrentSession();
+        List<Person> people = session.createQuery("select p from Person p").getResultList();
+        System.out.println(people);
+        return people;
+    }
+    @Transactional(readOnly = true)
+    public Person getPersonById(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Person.class, id);
+    }
+
+    @Transactional
+    public void save(Person person) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(person);
+    }
+    @Transactional
+    public void update(Long id, Person person) {
+        Session session = sessionFactory.getCurrentSession();
+        Person personToBeUpdated = session.get(Person.class, id);
+
+        personToBeUpdated.setName(person.getName());
+        personToBeUpdated.setAge(person.getAge());
+        personToBeUpdated.setEmail(person.getEmail());
+
+    }
+    @Transactional
+    public void delete(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        session.remove(session.get(Person.class, id));
+    }
+
+    @Transactional
+    public List<Person> searchByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+        List<Person> people = session.createQuery("select cat.name from Person cat where cat.name like name %").getResultList();
+        return people;
+    }
+
+    //        List<Person> people = new ArrayList<>();
 //        try {
 //            Statement statement = connection.createStatement();
 //            String query = "select * from person";
@@ -54,11 +101,7 @@ public class PersonDAO {
 //        }
 //        return people;
 
-        return jdbcTemplate.query("select * from person", new PersonMapper());
-    }
-
-    public Person getPersonById(Long id) {
-//        return people.stream()
+    //        return people.stream()
 //                .filter(person -> person.getId().equals(id))
 //                .findAny()
 //                .orElse(null);
@@ -85,13 +128,7 @@ public class PersonDAO {
 //        }
 //        return person;
 
-        return jdbcTemplate.query("select * from person where id = ?",new Object[]{id}, new PersonMapper())
-                .stream().findAny().orElse(null);
-    }
-
-
-    public void save(Person person) {
-//        try {
+    //        try {
 //            Statement statement = connection.createStatement();
 //            String query = "insert into person(id, name, age, email) values " +
 //                    "(" + ++PEOPLE_COUNT + " , '" + person.getName() +"', "+
@@ -106,14 +143,8 @@ public class PersonDAO {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-            jdbcTemplate.update("insert into person(name, age, email) values (?,?,?)"
-                    , person.getName()
-                    , person.getAge()
-                    , person.getEmail());
-    }
 
-    public void update(Long id, Person person) {
-//        Person updatedPerson = getPersonById(id);
+    //        Person updatedPerson = getPersonById(id);
 //        updatedPerson.setName(person.getName());
 //        updatedPerson.setLastName(person.getLastName());
 //        updatedPerson.setAge(person.getAge());
@@ -142,17 +173,8 @@ public class PersonDAO {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-        jdbcTemplate.update("update person set name = ?, age = ?, email = ? where id = ?"
-                , person.getName()
-                , person.getAge()
-                , person.getEmail()
-                , id
-        );
 
-    }
-
-    public void delete(Long id) {
-//        people.removeIf(person -> person.getId().equals(id));
+    //        people.removeIf(person -> person.getId().equals(id));
 //        try {
 //            Statement statement = connection.createStatement();
 //            String query = "delete from person where id =" + id;
@@ -169,15 +191,7 @@ public class PersonDAO {
 //        e.printStackTrace();
 //    }
 
-        jdbcTemplate.update("delete from person where id = ?"
-                , id
-        );
-    }
-
-    public List<Person> searchByName(String name) {
-       return jdbcTemplate.query("select * from person where name like ?",
-                new Object[]{name},
-                new PersonMapper());
-
-    }
+//    return jdbcTemplate.query("select * from person where name like ?",
+//                new Object[]{name},
+//                new PersonMapper());
 }
