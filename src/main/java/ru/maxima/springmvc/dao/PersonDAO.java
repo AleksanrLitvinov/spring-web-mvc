@@ -1,6 +1,7 @@
 package ru.maxima.springmvc.dao;
 
 
+import jakarta.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,9 +79,13 @@ public class PersonDAO {
     @Transactional
     public List<Person> searchByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        List<Person> people = session.createQuery("select cat.name from Person cat where cat.name like name %").getResultList();
+        Query query = session.createQuery("FROM Person where name =:paramName");
+        query.setParameter("paramName",  name);
+        List<Person> people = query.getResultList();
         return people;
     }
+
+
 
     //        List<Person> people = new ArrayList<>();
 //        try {
