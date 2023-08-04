@@ -85,7 +85,11 @@ public class PersonDAO {
         return people;
     }
 
-
+    @Transactional
+    public Person searchById(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Person.class, id);
+    }
 
     //        List<Person> people = new ArrayList<>();
 //        try {

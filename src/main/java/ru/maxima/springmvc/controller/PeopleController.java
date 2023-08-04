@@ -76,4 +76,10 @@ public class PeopleController {
         return "people/get-search-name";
 
     }
+
+    @PatchMapping("searchId")
+    public String getFromSearchByName(@RequestParam(name = "id", defaultValue = "number")Long id,Model model) {
+        model.addAttribute("personId", personDAO.getPersonById(id));
+        return "people/get-search-id";
+    }
 }

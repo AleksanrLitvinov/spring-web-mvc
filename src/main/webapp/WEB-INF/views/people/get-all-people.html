@@ -17,7 +17,13 @@
 
     <input type="submit" value="Search">
 </form>
+<form th:method="PATCH" th:action="@{/people/searchId}">
 
+    <input type="text"  name="id">
+    <br/>
+
+    <input type="submit" value="SearchId">
+</form>
  <br/>
 <a th:href="@{/people/new}">New person</a>
 
